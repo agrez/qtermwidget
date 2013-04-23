@@ -1,0 +1,11 @@
+--- COPYING.orig	2013-04-16 14:11:31.459603451 +0400
++++ COPYING	2013-04-16 14:12:22.234989601 +0400
+@@ -2,7 +2,7 @@
+ 		       Version 2, June 1991
+ 
+  Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+-                       59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
+  Everyone is permitted to copy and distribute verbatim copies
+  of this license document, but changing it is not allowed.
+ 
