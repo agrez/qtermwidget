@@ -1,12 +1,14 @@
+%global commit 8b3062f0248673b23b88afbd6f1d6ca581820c94
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+
 Name:		qtermwidget
 Version:	0.4.0
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	GPLv2+
 Summary:	Qt4 terminal widget
 URL:		https://github.com/qterminal/qtermwidget/
-Source0:	https://github.com/qterminal/qtermwidget/archive/%{version}.tar.gz
-# https://github.com/qterminal/qtermwidget/issues/10
-Patch0:		qtermwidget-fsf.patch
+#Source0:	https://github.com/qterminal/qtermwidget/archive/%{version}.tar.gz
+Source0:	https://github.com/qterminal/qtermwidget/tarball/%{commit}/qterminal-%{name}-%{version}-%{shortcommit}.tar.gz
 BuildRequires:	cmake, pkgconfig(QtGui)
 
 %description
@@ -23,8 +25,7 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Development files for qtermwidget library.
 
 %prep
-%setup0 -q
-%patch0 -p 0
+%setup0 -qn qterminal-%{name}-%{shortcommit}
 
 %build
 mkdir build
@@ -53,6 +54,11 @@ popd
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Tue Nov 19 2013 TI_Eugene <ti.eugene@gmail.com> - 0.4.0-6
+- Next git snapshot
+- Source0 URL changed
+- patch removed
+
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.0-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
