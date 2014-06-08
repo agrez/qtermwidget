@@ -3,7 +3,7 @@
 
 Name:		qtermwidget
 Version:	0.4.0
-Release:	6%{?dist}
+Release:	7%{?dist}
 License:	GPLv2+
 Summary:	Qt4 terminal widget
 URL:		https://github.com/qterminal/qtermwidget/
@@ -54,6 +54,9 @@ popd
 %{_libdir}/lib%{name}.so
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.0-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Tue Nov 19 2013 TI_Eugene <ti.eugene@gmail.com> - 0.4.0-6
 - Next git snapshot
 - Source0 URL changed
