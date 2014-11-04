@@ -1,15 +1,18 @@
-%global commit 8b3062f0248673b23b88afbd6f1d6ca581820c94
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%if 0%{?rhel} == 6
+%define cmake_pkg cmake28
+%else
+%define cmake_pkg cmake
+%endif
 
 Name:		qtermwidget
-Version:	0.4.0
-Release:	8%{?dist}
+Version:	0.6.0
+Release:	1%{?dist}
 License:	GPLv2+
 Summary:	Qt4 terminal widget
-URL:		https://github.com/qterminal/qtermwidget/
-#Source0:	https://github.com/qterminal/qtermwidget/archive/%{version}.tar.gz
-Source0:	https://github.com/qterminal/qtermwidget/tarball/%{commit}/qterminal-%{name}-%{version}-%{shortcommit}.tar.gz
-BuildRequires:	cmake, pkgconfig(QtGui)
+URL:		https://github.com/qterminal/%{name}/
+Source0:	https://github.com/qterminal/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
+BuildRequires:  %{cmake_pkg} >= 2.8
+BuildRequires:	pkgconfig(QtGui)
 
 %description
 QTermWidget is an open-source project originally based on KDE4 Konsole
@@ -17,43 +20,107 @@ application, but it took its own direction later.
 The main goal of this project is to provide Unicode-enabled, embeddable
 QT widget for using as a built-in console (or terminal emulation widget)
 
-%package devel
+
+%package	devel
 Summary:	Qt4 terminal widget - devel package
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 
-%description devel
+%description	devel
 Development files for qtermwidget library.
 
+
+%package	qt5
+Summary:	Qt4 terminal widget
+BuildRequires:	pkgconfig(Qt5Gui)
+
+%description	qt5
+QTermWidget is an open-source project originally based on KDE4 Konsole
+application, but it took its own direction later.
+The main goal of this project is to provide Unicode-enabled, embeddable
+QT widget for using as a built-in console (or terminal emulation widget)
+
+
+%package	qt5-devel
+Summary:	Qt5 terminal widget - devel package
+Requires:	%{name}-qt5%{?_isa} = %{version}-%{release}
+
+%description	qt5-devel
+Development files for qtermwidget-qt5 library.
+
+
 %prep
-%setup0 -qn qterminal-%{name}-%{shortcommit}
+%setup0 -q
+
 
 %build
-mkdir build
-pushd build
-%cmake ..
+# qt4
+mkdir build4
+pushd build4
+%{?cmake28}%{!?cmake28:%{?cmake}} ..
+make %{?_smp_mflags}
+popd
+# qt5
+mkdir build5
+pushd build5
+%{?cmake28}%{!?cmake28:%{?cmake}} -DUSE_QT5=ON -DBUILD_DESIGNER_PLUGIN=0 ..
 make %{?_smp_mflags}
 popd
 
+
 %install
-pushd build
+# qt4
+pushd build4
+%make_install
+popd
+# qt5
+pushd build5
 %make_install
 popd
 
+
 %post -p /sbin/ldconfig
+
 
 %postun -p /sbin/ldconfig
 
+
+%post	qt5
+/sbin/ldconfig
+
+
+%postun	qt5
+/sbin/ldconfig
+
+
 %files
 %doc AUTHORS COPYING Changelog README
-%{_libdir}/lib%{name}.so.*
-%{_libdir}/qt4/plugins/designer/lib%{name}plugin.so
-%{_datadir}/%{name}/
+%{_libdir}/lib%{name}4.so.*
+%{_libdir}/qt4/plugins/designer/lib%{name}4plugin.so
+%{_datadir}/%{name}4/
 
-%files devel
-%{_includedir}/%{name}.h
-%{_libdir}/lib%{name}.so
+%files	devel
+%{_includedir}/%{name}4/
+%{_libdir}/lib%{name}4.so
+%{_libdir}/pkgconfig/%{name}4.pc
+%{_datadir}/cmake/%{name}4/
+
+%files	qt5
+%doc AUTHORS COPYING Changelog README
+%{_libdir}/lib%{name}5.so.*
+%{_datadir}/%{name}5/
+
+%files	qt5-devel
+%{_includedir}/%{name}5/
+%{_libdir}/lib%{name}5.so
+%{_libdir}/pkgconfig/%{name}5.pc
+%{_datadir}/cmake/%{name}5/
+
 
 %changelog
+* Tue Nov 04 2014 TI_Eugene <ti.eugene@gmail.com> - 0.6.0-1
+- Version bump
+- qt5 packages added
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
