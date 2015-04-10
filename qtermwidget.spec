@@ -6,11 +6,13 @@
 
 Name:		qtermwidget
 Version:	0.6.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Summary:	Qt4 terminal widget
 URL:		https://github.com/qterminal/%{name}/
 Source0:	https://github.com/qterminal/%{name}/releases/download/%{version}/%{name}-%{version}.tar.xz
+# https://github.com/qterminal/qtermwidget/commit/da6838df1ab5a919c32cde68017518ac7b8ba0e5
+Patch0:		qtermwidget-0.6.0-qt-virt-manager.patch
 BuildRequires:  %{cmake_pkg} >= 2.8
 BuildRequires:	pkgconfig(QtGui)
 
@@ -50,6 +52,7 @@ Development files for qtermwidget-qt5 library.
 
 %prep
 %setup0 -q
+%patch0 -p 0
 
 
 %build
@@ -117,6 +120,9 @@ popd
 
 
 %changelog
+* Fri Apr 10 2015 TI_Eugene <ti.eugene@gmail.com> - 0.6.0-2
+- qt-virt-manager compatible patch added
+
 * Tue Nov 04 2014 TI_Eugene <ti.eugene@gmail.com> - 0.6.0-1
 - Version bump
 - qt5 packages added
