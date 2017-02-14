@@ -1,5 +1,5 @@
 Name:		qtermwidget
-Version:	0.7.0
+Version:	0.7.1
 Release:	1%{?dist}
 License:	GPLv2+
 Summary:	A terminal emulator widget for Qt 5
@@ -61,6 +61,9 @@ make %{?_smp_mflags}
 
 
 %changelog
+* Tue Feb 14 2017 Vaughan <devel at agrez.net> - 0.7.1-1
+- New release
+
 * Mon Oct 17 2016 Vaughan <devel at agrez.net> - 0.7.0-1
 - New release
 - Depreciate Qt4 build (build support for Qt <= 5.4 dropped upstream)
